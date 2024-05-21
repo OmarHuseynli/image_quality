@@ -200,16 +200,47 @@ if __name__ =='__main__':
             
             # Calculate NIQE score
             niqe_score = calculate_niqe(image_file, crop_border=0, params_path=params_path)
+            a = "quality"
+            b = "quality"
+            c = "quality"
+            
+            if niqe_score < 3:
+                a = "excellent quality"
+            elif 3 < niqe_score < 5:
+                a = "good quality"
+            elif 5 < niqe_score < 7:
+                a = "fair quality"
+            elif niqe_score > 7 :
+                a = "low quality"
+                
             
             # Calculate BRISQUE score
             ndarray = np.asarray(image_file)
             obj = BRISQUE(url=False)
             brisque_score = obj.score(img=ndarray)
             
+            if 0 < brisque_score < 20 :
+                b = "excellent quality"
+            elif 20 < brisque_score < 40 :
+                b = "good quality"
+            elif 40 < brisque_score < 60 :
+                b = "fair quality"
+            elif 60 < brisque_score < 100 :
+                b = "low quality" 
+            
             #Calculate PIQE score
             Score, ActivityMask, NoticeableArtifactsMask, NoiseMask = piqe(image_file)
+            
+            if 0 < Score < 20 :
+                c = "excellent quality"
+            elif 20 < Score < 40 :
+                c = "good quality"
+            elif 40 < Score < 60 :
+                c = "fair quality"
+            elif Score > 60 :
+                c = "low quality" 
             
             
 
             # Print the score along with the file name
-            print(f'Image: {file_name}, NIQE Score: {niqe_score}, BRISQUE Score: {brisque_score}, PIQE Score: {Score}')
+            print(f'Image: {file_name}, NIQE Score: {niqe_score}, NIQE Quality: {a} , BRISQUE Score: {brisque_score}, BRISQUE Quality: {b}, PIQE Score: {Score}, PIQE Quality: {c}')
